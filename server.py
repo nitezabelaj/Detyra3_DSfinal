@@ -24,3 +24,11 @@ def handle_client(conn):
 
         # Marrim çelësin e DES të kriptuar me RSA
         encrypted_des_key = conn.recv(2048)
+
+        # Dekriptojmë çelësin DES duke përdorur çelësin privat të serverit
+        rsa_cipher = PKCS1_OAEP.new(RSA.import_key(private_key))
+        des_key = rsa_cipher.decrypt(encrypted_des_key)
+
+        # Marrim IV-në e kriptuar
+        encrypted_iv = conn.recv(2048)
+        iv = rsa_cipher.decrypt(encrypted_iv)

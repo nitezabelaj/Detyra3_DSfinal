@@ -45,5 +45,5 @@ def start_client():
             # Dërgojmë mesazhin e kriptuar
             s.sendall(encrypted_message)
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
         start_client()

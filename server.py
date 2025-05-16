@@ -51,3 +51,21 @@ def handle_client(conn):
     finally:
         conn.close()
 
+    def start_server():
+        host = 'localhost'
+        port = 12345
+
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((host, port))
+            s.listen()
+            print("Serveri është duke pritur për lidhje...")
+
+            while True:
+                conn, addr = s.accept()
+                print("Lidhur me", addr)
+                threading.Thread(target=handle_client, args=(conn,)).start()
+
+    if __name__ == "__main__":
+        start_server()
+
+

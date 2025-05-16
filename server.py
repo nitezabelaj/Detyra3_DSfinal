@@ -32,3 +32,22 @@ def handle_client(conn):
         # Marrim IV-në e kriptuar
         encrypted_iv = conn.recv(2048)
         iv = rsa_cipher.decrypt(encrypted_iv)
+
+        # Krijojmë cipher DES
+        des_cipher = DES.new(des_key, DES.MODE_CBC, iv)
+
+        while True:
+            # Marrim të dhënat e kriptuara
+            encrypted_data = conn.recv(1024)
+            if not encrypted_data:
+                break
+
+            # Dekriptojmë të dhënat
+            decrypted_data = unpad(des_cipher.decrypt(encrypted_data), DES.block_size)
+            print("Mesazhi i dekriptuar:", decrypted_data.decode())
+
+    except Exception as e:
+        print("Gabim:", e)
+    finally:
+        conn.close()
+

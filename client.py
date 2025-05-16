@@ -32,3 +32,18 @@ def start_client():
 
         # Krijojmë cipher DES
         des_cipher = DES.new(des_key, DES.MODE_CBC, iv)
+
+        while True:
+            message = input("Shkruani mesazhin (ose 'quit' për të dalë): ")
+            if message.lower() == 'quit':
+                break
+
+            # Kriptojmë mesazhin
+            padded_message = pad(message.encode(), DES.block_size)
+            encrypted_message = des_cipher.encrypt(padded_message)
+
+            # Dërgojmë mesazhin e kriptuar
+            s.sendall(encrypted_message)
+
+    if __name__ == "__main__":
+        start_client()
